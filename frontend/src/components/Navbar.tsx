@@ -30,13 +30,10 @@ const Navbar = ({ navHeight, Logout }: navType) => {
           if (status) {
             setAuth(true);
             setUser(user);
-          } else {
-            Logout();
           }
         })
         .catch((e) => {
           console.log(e);
-          Logout();
         });
     };
 
