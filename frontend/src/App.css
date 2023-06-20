@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "Gotham";
+  src: url("fonts/GothamMedium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gotham Light";
+  src: url("fonts/GothamBook.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gotham Black";
+  src: url("fonts/Gotham-Black.otf") format("truetype");
+}
+@font-face {
+  font-family: "Gotham Black Italic";
+  src: url("fonts/Gotham-UltraItalic.otf") format("truetype");
+}
+@font-face {
+  font-family: "Gotham Italic";
+  src: url("fonts/GothamMediumItalic.ttf") format("truetype");
+}
+.App {
+  background-color: #254f1a;
+  height: 100vh;
+  padding-left: 0;
+  background-image: url("../public/landingPage.png");
+  background-size: cover; /* or 'contain' depending on your preference */
+  background-repeat: no-repeat;
+  background-position: center center;
+  font-family: "Gotham", sans-serif;
+}

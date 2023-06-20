@@ -1,0 +1,167 @@
+.navbar {
+  z-index: 100;
+}
+
+.landing-section {
+  padding-left: 5%;
+  position: relative;
+  z-index: 100;
+}
+
+.landing-section-header {
+  font-family: "Gotham Black", sans-serif;
+  padding-top: 8%;
+  font-size: 60px;
+  text-align: left;
+}
+
+.landing-section-text {
+  font-family: "Gotham Light", sans-serif;
+  font-size: 20px;
+  text-align: left;
+}
+
+.referrals-section {
+  height: auto;
+
+  background: rgb(28, 28, 30);
+  background: linear-gradient(
+    0deg,
+    rgba(28, 28, 30, 1) 69%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+.footer-tag {
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+.landing-input {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="75" height="40" style="padding-top:5px; padding-left:5px"><text x="5" y="19" style="font: bold 16px Arial;">refer.sg/</text></svg>')
+    no-repeat;
+  border: 1px solid #555;
+  border-radius: 20px;
+  box-sizing: border-box;
+  font: 16px "Arial";
+  height: 40px;
+  padding-left: 75px;
+  width: 200px;
+}
+
+.create-button {
+  margin-inline: 5%;
+}
+.page-name {
+  margin-right: 20px;
+}
+.highlighted-text {
+  font-family: "Gotham Black Italic", "sans serif";
+}
+.view-card-title {
+  text-decoration: none;
+  font-size: 25px;
+  color: whitesmoke;
+  font-family: "Gotham Black", "sans-serif";
+}
+
+.referral-panel-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as desired */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 900;
+  backdrop-filter: blur(5px); /* Apply blur effect */
+}
+
+.referral-panel-content {
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  height: 85vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+/* Responsive font sizes */
+@media (max-width: 576px) {
+  .landing-section-header {
+    font-size: 40px;
+  }
+
+  .create-button {
+    font-size: 11px;
+  }
+  .landing-section {
+    width: 100%;
+  }
+  .page-name {
+    display: hidden;
+  }
+  .referrals-area {
+    flex-direction: column;
+    gap: 0;
+  }
+  .referral-filter {
+    flex-direction: column;
+  }
+  .organisation-text {
+    justify-content: center;
+  }
+  .results-text {
+    text-align: center;
+  }
+
+  .referral-panel-content {
+    width: 80vw;
+  }
+}
+
+@media (min-width: 576px) {
+  .landing-section-header {
+    font-size: 40px;
+  }
+  .referral-filter {
+    flex-direction: column;
+  }
+
+  .landing-section {
+    width: 70%;
+  }
+
+  .referral-panel-content {
+    width: 45vw;
+  }
+
+  .organisation-text {
+    justify-content: start;
+  }
+  .results-text {
+    text-align: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .landing-section-header {
+    font-size: 50px;
+  }
+  .landing-section {
+    width: 50%;
+  }
+  .referral-filter {
+    flex-direction: row;
+  }
+  .referrals-area {
+    flex-direction: row;
+    gap: 5;
+  }
+}

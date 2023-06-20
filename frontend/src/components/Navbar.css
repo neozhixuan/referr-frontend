@@ -1,0 +1,15 @@
+@media (max-width: 576px) {
+  .page-name {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) {
+  .page-name {
+    display: block;
+  }
+}
+
+.page-name {
+  font-family: "Gotham Black";
+}
