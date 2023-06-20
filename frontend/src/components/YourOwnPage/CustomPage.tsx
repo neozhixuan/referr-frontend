@@ -189,7 +189,6 @@ const CustomPage = ({
       .then((response) => {
         const { success, message } = response.data;
         if (success) {
-          window.location.reload();
           handleSuccess(message);
         } else {
           handleError(message);

@@ -43,10 +43,10 @@ function App() {
 
   const checkAuth = async () => {
     console.log("Starting auth...");
-    if (!cookies.token) {
-      console.log("No cookies.token found.");
-      return;
-    }
+    // if (!cookies.token) {
+    //   console.log("No cookies.token found.");
+    //   return;
+    // }
     console.log("Trying auth service...");
     referralDataService
       .auth()

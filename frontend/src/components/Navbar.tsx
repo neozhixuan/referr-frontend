@@ -19,9 +19,9 @@ const Navbar = ({ navHeight, Logout }: navType) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (!cookies.token) {
-        return;
-      }
+      // if (!cookies.token) {
+      //   return;
+      // }
       referralDataService
         .auth()
         .then((response) => {
@@ -63,6 +63,7 @@ const Navbar = ({ navHeight, Logout }: navType) => {
           width={30}
           height={30}
           style={{ marginRight: "20px" }}
+          alt={"Logo"}
         />
         <span
           className="navbar-brand ml-5 page-name"
