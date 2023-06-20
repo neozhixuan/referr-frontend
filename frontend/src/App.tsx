@@ -55,13 +55,10 @@ function App() {
         const { status, user } = response.data;
         if (status) {
           setUser(user);
-        } else {
-          Logout();
         }
       })
       .catch((e) => {
         console.log(e);
-        Logout();
       });
   };
 
