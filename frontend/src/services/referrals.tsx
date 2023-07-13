@@ -30,7 +30,7 @@ export class ReferralDataService {
 
   // Authentication Services
   auth() {
-    return http.post("/", {}, { withCredentials: true });
+    return http.post("/", { withCredentials: true });
   }
   login(data: { email: string; password: string }) {
     return http.post("/login", data, { withCredentials: true });
