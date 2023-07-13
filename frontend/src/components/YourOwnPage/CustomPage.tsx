@@ -8,6 +8,7 @@ import { Button, Form } from "react-bootstrap";
 import "./CustomPage.css"; // Import the CSS file with the styles
 import { organisationType } from "../../types";
 import { saveToClipboard } from "../../utils";
+import LoadingScreen from "../LoadingScreen";
 import ReferralForm from "./ReferralForm";
 import {
   OrganisationDataService,
@@ -42,6 +43,7 @@ const CustomPage = ({
   const currentUrl = "http://localhost:3000/user/" + name;
   const [showInput, setShowInput] = useState(false);
 
+  const [load, setLoad] = useState(false);
   const [orgIsOpen, setOrgIsOpen] = useState(false);
   const [deletePanel, setDeletePanel] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -152,8 +154,11 @@ const CustomPage = ({
   // Create a new org
   const handleOrgProcess = async (e: React.FormEvent) => {
     handleOrgSubmit(e);
-    window.location.reload();
     setIsOpen(true);
+    setLoad(true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
   const organisationDataService = new OrganisationDataService();
   const handleOrgSubmit = async (e: React.FormEvent) => {
@@ -206,7 +211,10 @@ const CustomPage = ({
       expiryDate: null,
     });
     setIsOpen(false);
-    window.location.reload();
+    setLoad(true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   // Delete referral
@@ -221,7 +229,10 @@ const CustomPage = ({
       .then((response) => {
         const { status } = response.data;
         if (status === "success") {
-          window.location.reload();
+          setLoad(true);
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         } else {
           console.log("error");
         }
@@ -284,7 +295,10 @@ const CustomPage = ({
       .updateReferral(inputValue)
       .then((response) => {
         setIsEdit(false);
-        window.location.reload();
+        setLoad(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       })
       .catch((e) => {
         console.log(e);
@@ -457,6 +471,7 @@ const CustomPage = ({
           </div>
         </div>
       )}
+      {load && <LoadingScreen />}
       <ToastContainer />
     </div>
   );

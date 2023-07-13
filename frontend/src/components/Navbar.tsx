@@ -25,6 +25,7 @@ const Navbar = ({ navHeight, Logout }: navType) => {
       referralDataService
         .auth()
         .then((response) => {
+          console.log("This is navbar checking auth");
           console.log(response.data);
           const { status, user } = response.data;
           if (status) {
