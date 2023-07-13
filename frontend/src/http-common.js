@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://api.referr.app/",
+  baseURL: "https://api.referr.site/",
   withCredentials: true,
   credentials: "include",
   headers: {
