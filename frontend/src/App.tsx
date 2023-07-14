@@ -9,7 +9,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import Organisation from "./components/OrgPage/Organisation";
 import Register from "./components/Registration/Register";
 import CustomPage from "./components/YourOwnPage/CustomPage";
-
+import { handleSuccess } from "./utils";
 import {
   OrganisationDataService,
   ReferralDataService,
@@ -32,21 +32,26 @@ function App() {
   const [user, setUser] = useState("");
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
-  const Logout = () => {
-    removeCookie("token");
-    console.log("hi");
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+  const Logout = async () => {
+    console.log("Starting auth...");
+    console.log("Trying auth service...");
+    referralDataService
+      .logout()
+      .then((response) => {
+        console.log(response.data);
+        const { success, message } = response.data;
+        if (success) {
+          handleSuccess(message);
+          window.location.reload();
+        }
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+      });
   };
 
   const checkAuth = async () => {
     console.log("Starting auth...");
-    // if (!cookies.token) {
-    //   console.log("No cookies.token found.");
-    //   return;
-    // }
     console.log("Trying auth service...");
     referralDataService
       .auth()

@@ -39,6 +39,9 @@ export class ReferralDataService {
   register(data: { email: string; password: string; username?: string }) {
     return http.post("/signup", data, { withCredentials: true });
   }
+  logout() {
+    return http.get("/logout");
+  }
 }
 
 export class OrganisationDataService {
