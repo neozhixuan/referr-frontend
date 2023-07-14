@@ -1,5 +1,5 @@
 import { referralType } from "../../types";
-import { filledApprove, emptyApprove } from "../../utils";
+import { filledApprove, emptyApprove, heartFilled } from "../../utils";
 import { Link } from "react-router-dom";
 const MainReferralCard = ({
   referral,
@@ -11,11 +11,11 @@ const MainReferralCard = ({
   localLikes,
 }: {
   referral: referralType;
-  openCard: () => void;
+  openCard: (referral: referralType) => void;
   imageUrl: string;
   load: string[];
   user: string;
-  handleLikes: Promise<void>;
+  handleLikes: (id: string, includes: boolean) => Promise<void>;
   localLikes: string[];
 }) => {
   return (
@@ -25,63 +25,82 @@ const MainReferralCard = ({
         style={{ width: "18rem" }}
       >
         <div className="card-body d-flex flex-column">
-          <div className="d-flex flex-column" onClick={openCard}>
-            <div className="card-title text-white d-flex flex-row gap-3">
+          <div className="d-flex flex-column gap-2 mb-3">
+            <Link
+              to={`/organisation/${referral.organisation}`}
+              className="card-title text-white d-flex flex-row gap-3 text-decoration-none"
+            >
               <img
                 alt="Shop Logo"
                 style={{ width: "30px", height: "30px" }}
                 src={imageUrl}
               />
               <h5 className="mt-1">{referral.organisation}</h5>
+            </Link>
+            <div onClick={() => openCard(referral)}>
+              <h6 className="card-subtitle mb-2 text-info text-uppercase">
+                {referral.code}
+              </h6>
+              <span className="truncate-lines text-white">
+                {referral.description}
+              </span>
             </div>
-            <h6 className="card-subtitle mb-2 text-muted">{referral.code}</h6>
-            <span className="card-text text-white">{referral.description}</span>
-            <span className="text-white mb-1">
+          </div>
+          <div className="mt-auto">
+            <div className="text-white">
               {load.includes(referral._id) ? (
                 <>Loading...</>
               ) : (
-                <>
-                  {referral.approvals.length + 1}{" "}
-                  {referral.approvals.length > 0 ? `likes` : `like`} to{" "}
-                  <Link to={`/user/${referral.userId}`}>{referral.userId}</Link>
-                </>
-              )}
-            </span>
-          </div>
-          <div className="mt-auto d-flex flex-row gap-2">
-            <a
-              className={`btn ${user === "" && "w-100"}`}
-              href={referral.url}
-              style={{ backgroundColor: "gray" }}
-            >
-              Use code
-            </a>
-            {user !== "" && (
-              <button
-                className={`btn btn-primary ${
-                  (user === referral.userId || load.includes(referral._id)) &&
-                  `disabled`
-                }`}
-                onClick={() => handleLikes}
-              >
-                {load.includes(referral._id) ? (
-                  <div
-                    className="spinner-border spinner-border-sm"
-                    role="status"
-                  >
-                    {/* <span className="sr-only">Loading...</span> */}
+                <div className="d-flex flex-row justify-content-between">
+                  <div className="d-flex gap-1">
+                    <span>{heartFilled}</span>
+                    <span>{referral.approvals.length}</span>
                   </div>
-                ) : (
-                  <>
-                    {localLikes.includes(referral._id) ||
-                    referral.approvals.includes(user) ||
-                    user === referral.userId
-                      ? filledApprove
-                      : emptyApprove}
-                  </>
-                )}
-              </button>
-            )}
+                  <Link
+                    className="text-decoration-none"
+                    to={`/user/${referral.userId}`}
+                  >
+                    {referral.userId}
+                  </Link>
+                </div>
+              )}
+            </div>
+            <div className=" d-flex flex-row gap-2 mt-2">
+              <a
+                className={`btn btn-dark ${user === "" && "w-100"}`}
+                href={referral.url}
+              >
+                Use code
+              </a>
+              {user !== "" && (
+                <button
+                  className={`btn btn-primary ${
+                    (user === referral.userId || load.includes(referral._id)) &&
+                    `disabled`
+                  }`}
+                  onClick={() =>
+                    handleLikes(referral._id, referral.approvals.includes(user))
+                  }
+                >
+                  {load.includes(referral._id) ? (
+                    <div
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                    >
+                      {/* <span className="sr-only">Loading...</span> */}
+                    </div>
+                  ) : (
+                    <>
+                      {localLikes.includes(referral._id) ||
+                      referral.approvals.includes(user) ||
+                      user === referral.userId
+                        ? filledApprove
+                        : emptyApprove}
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

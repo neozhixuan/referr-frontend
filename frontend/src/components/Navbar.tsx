@@ -67,7 +67,7 @@ const Navbar = ({ navHeight, Logout }: navType) => {
           className="navbar-brand ml-5 page-name"
           style={{ textDecoration: "underline", textDecorationColor: "black" }}
         >
-          referr.me
+          referr.site
         </span>
       </a>
       <div className="navbar-nav w-full d-flex flex-row gap-2">

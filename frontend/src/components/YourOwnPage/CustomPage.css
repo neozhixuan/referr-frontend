@@ -56,9 +56,29 @@
 .custom-page {
   width: 100%;
   height: 100vh;
+  max-height: 100vh;
   overflow-y: scroll;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #363636;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #e7e7e7;
+  border: 1px solid #cacaca;
+}
+
+.priority {
+  z-index: 999999;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 12px;
 }
 
 @media (max-width: 576px) {

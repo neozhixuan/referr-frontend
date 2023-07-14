@@ -25,10 +25,11 @@ const LandingSection = ({ height }: propType) => {
           type="text"
           autoFocus={true}
           value={inputText}
+          placeholder="you-decide!"
           onChange={(e) => setInputText(e.target.value)}
         />
         <Link
-          to={"/register/" + inputText}
+          to={"/register/" + `${inputText === "" ? "placeholder" : inputText}`}
           className="btn btn-dark rounded-lg create-button "
         >
           {" "}
@@ -36,7 +37,7 @@ const LandingSection = ({ height }: propType) => {
         </Link>
       </div>
       <a
-        className="mt-4 btn"
+        className="mt-2 btn"
         style={{ fontFamily: "Gotham Italic", textAlign: "left" }}
         href="#referrals"
       >

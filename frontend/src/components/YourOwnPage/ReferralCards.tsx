@@ -1,4 +1,5 @@
 import { referralType } from "../../types";
+import { filledApprove } from "../../utils";
 
 const ReferralCards = ({
   referral,
@@ -45,13 +46,12 @@ const ReferralCards = ({
   );
   return (
     <div
-      className="rounded bg-white p-3"
-      style={{ width: "60%" }}
-      onClick={openCard}
+      className="rounded bg-dark p-3 mb-3 text-white"
+      style={{ width: "100%" }}
     >
       <div className="d-flex flex-row justify-content-between">
         {/* Details */}
-        <div className="d-flex flex-column">
+        <div onClick={openCard} className="d-flex flex-column w-100">
           <div className="d-flex flex-row gap-3">
             <img
               alt="Shop Logo"
@@ -62,6 +62,10 @@ const ReferralCards = ({
           </div>
           <div>{referral.code}</div>
           <div>{referral.description}</div>
+          <div className="d-flex flex-row gap-1 align-items-stretch">
+            <div>{filledApprove}</div>
+            <div style={{ paddingTop: "1px" }}>{referral.approvals.length}</div>
+          </div>
         </div>
         {auth && (
           <div className="d-flex flex-column">

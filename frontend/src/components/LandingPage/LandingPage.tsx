@@ -29,17 +29,18 @@ const LandingPage = ({
 
   return (
     <div className="pt-2">
-      <Navbar navHeight={navHeight} Logout={Logout} />
+      <div style={{ maxHeight: "100vh" }}>
+        <Navbar navHeight={navHeight} Logout={Logout} />
 
-      {/* Tag Image */}
-      <img
-        src={isSmall ? mobileImage : bigImage}
-        alt="Footer Design"
-        className="footer-tag"
-      />
+        {/* Tag Image */}
+        <img
+          src={isSmall ? mobileImage : bigImage}
+          alt="Footer Design"
+          className="footer-tag"
+        />
 
-      <LandingSection height={contentHeight} />
-
+        <LandingSection height={contentHeight} />
+      </div>
       <ReferralsSection
         retrieveReferrals={retrieveReferrals}
         refer={refer}

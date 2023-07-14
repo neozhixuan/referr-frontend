@@ -10,13 +10,14 @@ import { organisationType } from "../../types";
 import { saveToClipboard } from "../../utils";
 import LoadingScreen from "../LoadingScreen";
 import ReferralForm from "./ReferralForm";
+import { Spinner } from "react-bootstrap";
 import {
   OrganisationDataService,
   ReferralDataService,
 } from "../../services/referrals";
 import CustomPageHeader from "./CustomPageHeader";
 import { handleSuccess, handleError } from "../../utils";
-import OrgCard from "../OrgCard";
+import OrgCard from "../LandingPage/OrgCard";
 interface CustomPageProps {
   org: organisationType[] | never[];
   userReferral: referralType[] | never[];
@@ -44,6 +45,7 @@ const CustomPage = ({
   const [showInput, setShowInput] = useState(false);
 
   const [load, setLoad] = useState(false);
+  const [authLoad, setAuthLoad] = useState(true);
   const [orgIsOpen, setOrgIsOpen] = useState(false);
   const [deletePanel, setDeletePanel] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -90,6 +92,40 @@ const CustomPage = ({
   const { userId, organisation, code, url, description, expiryDate } =
     inputValue;
 
+  useEffect(() => {
+    setTimeout(() => setAuthLoad(false), 800);
+  }, []);
+
+  const [localLikes, setLocalLikes] = useState<string[]>([]);
+
+  const [cardLoad, setCardLoad] = useState<string[]>([]);
+  const handleLike = async (id: string, incl: boolean) => {
+    let like = true;
+    setCardLoad((prevArray) => [...prevArray, id]);
+    setTimeout(
+      () =>
+        setCardLoad((prevArray) => prevArray.filter((entry) => entry !== id)),
+      2000
+    );
+    (localLikes.includes(id) || incl) && (like = false);
+
+    referralDataService
+      .like({ userId: user, id: id, like: like })
+      .then((response) => {
+        const { status } = response.data;
+        like
+          ? setLocalLikes((prevArray) => [...prevArray, id])
+          : setLocalLikes((prevArray) =>
+              prevArray.filter((entry) => entry !== id)
+            );
+        if (status === "success") {
+          retrieveReferrals();
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   // Inputs on change
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -327,6 +363,10 @@ const CustomPage = ({
           viewReferralImg={viewReferralImg}
           viewReferral={viewReferral}
           setCardOpen={() => setCardOpen(false)}
+          load={cardLoad}
+          user={user}
+          handleLikes={handleLike}
+          localLikes={localLikes}
         />
       )}
       {/* Header */}
@@ -336,34 +376,57 @@ const CustomPage = ({
         currentUrl={currentUrl}
       />
       {/* Referral Cards */}
+
       {referralCount > 0 ? (
-        referrals.map((referral: referralType) => {
-          const matchedItem = org.find(
-            (organisation) => organisation.name === referral.organisation
-          );
-          const imageUrl = matchedItem ? matchedItem.imgUrl : "";
-          return (
-            <ReferralCards
-              openCard={() => openCard(referral)}
-              auth={auth}
-              handleEdit={() => editProcess(referral)}
-              handleDelete={() => deleteProcess(referral._id)}
-              key={referral._id}
-              imageUrl={imageUrl}
-              referral={referral}
-            />
-          );
-        })
+        <div className="scrollbar vh-90 overflow-auto">
+          {referrals.map((referral: referralType) => {
+            const matchedItem = org.find(
+              (organisation) => organisation.name === referral.organisation
+            );
+            const imageUrl = matchedItem ? matchedItem.imgUrl : "";
+            return (
+              <ReferralCards
+                openCard={() => openCard(referral)}
+                auth={auth}
+                handleEdit={() => editProcess(referral)}
+                handleDelete={() => deleteProcess(referral._id)}
+                key={referral._id}
+                imageUrl={imageUrl}
+                referral={referral}
+              />
+            );
+          })}
+        </div>
       ) : (
-        <div>Loading... {referralCount} results found</div>
+        <>
+          {authLoad ? (
+            <Spinner animation="border" variant="light" />
+          ) : (
+            <div>No referrals yet.</div>
+          )}
+        </>
       )}
       {/* Button depending on auth */}
-      {auth ? (
-        <button onClick={() => setIsOpen(true)} className="btn btn-light">
-          Create a new referral to share!
-        </button>
+      {authLoad ? (
+        <Spinner animation="border" variant="light" />
       ) : (
-        <Link to={"/register/"}>Create your own refer.help link!</Link>
+        <>
+          {auth ? (
+            <button onClick={() => setIsOpen(true)} className="btn btn-light">
+              Create a new referral to share!
+            </button>
+          ) : (
+            <Link
+              to={"/register/example"}
+              className="w-full btn btn-dark text-center d-flex flex-column"
+            >
+              {/* <span>Haven't created an account?</span>{" "} */}
+              <span className="text-white">
+                Make your own referr.site link here!
+              </span>
+            </Link>
+          )}
+        </>
       )}
       <Link to={"/"} className="mt-auto text-black">
         Back to refer.help
