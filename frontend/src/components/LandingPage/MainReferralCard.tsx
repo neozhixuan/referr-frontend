@@ -41,7 +41,10 @@ const MainReferralCard = ({
               <h6 className="card-subtitle mb-2 text-info text-uppercase">
                 {referral.code}
               </h6>
-              <span className="truncate-lines text-white">
+              <span
+                className="truncate-lines text-white"
+                style={{ color: "white" }}
+              >
                 {referral.description}
               </span>
             </div>
