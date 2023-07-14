@@ -19,7 +19,7 @@ const OrgCard = ({
   user: string;
 }) => {
   return (
-    <div className="referral-panel-container" onClick={setCardOpen}>
+    <div className="referral-panel-container">
       <div
         className="referral-panel-content d-flex flex-column bg-black rounded border border-white"
         style={{ color: "whitesmoke" }}
@@ -37,30 +37,29 @@ const OrgCard = ({
             {viewReferral.organisation}
           </Link>{" "}
         </div>
-
-        <p>
-          <b>Code:</b> <p>{viewReferral.code}</p>
-        </p>
-        <p>
-          <b>Description:</b> <p>{viewReferral.description}</p>
-        </p>
-        <p>
-          <b>Expiry Date:</b>{" "}
+        <div onClick={setCardOpen}>
           <p>
-            {viewReferral.expiryDate
-              ? viewReferral.expiryDate?.toLocaleDateString()
-              : `Not specified.`}
+            <b>Code:</b> <p>{viewReferral.code}</p>
           </p>
-        </p>
+          <p>
+            <b>Description:</b> <p>{viewReferral.description}</p>
+          </p>
+          <p>
+            <b>Expiry Date:</b>{" "}
+            <p>
+              {viewReferral.expiryDate
+                ? viewReferral.expiryDate?.toLocaleDateString()
+                : `Not specified.`}
+            </p>
+          </p>
+        </div>
         <p className="mt-auto">
           <b>Created at</b> {viewReferral.date.toLocaleDateString()} by{" "}
           <Link to={`/user/${viewReferral.userId}`}>{viewReferral.userId}</Link>
         </p>
-        <div className=" d-flex flex-row gap-2 mt-2">
-          <a
-            className={`btn btn-dark ${user === "" && "w-100"}`}
-            href={viewReferral.url}
-          >
+
+        <div className=" d-flex flex-row gap-2 mt-2 w-100">
+          <a className={`btn btn-dark w-100`} href={viewReferral.url}>
             Use code
           </a>
           {user !== "" && (

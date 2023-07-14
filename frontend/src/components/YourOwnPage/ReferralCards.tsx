@@ -60,19 +60,19 @@ const ReferralCards = ({
             />
             <h5>{referral.organisation}</h5>
           </div>
-          <div>{referral.code}</div>
+          <div className="text-info">{referral.code}</div>
           <div>{referral.description}</div>
-          <div className="d-flex flex-row gap-1 align-items-stretch">
+          <div className="truncate-lines d-flex flex-row gap-1 align-items-stretch">
             <div>{filledApprove}</div>
             <div style={{ paddingTop: "1px" }}>{referral.approvals.length}</div>
           </div>
         </div>
         {auth && (
           <div className="d-flex flex-column">
-            <button onClick={handleEdit} className="btn">
+            <button onClick={handleEdit} className="btn btn-light mb-2">
               {editButton}
             </button>
-            <button onClick={handleDelete} className="btn">
+            <button onClick={handleDelete} className="btn btn-light">
               {deleteButton}
             </button>
           </div>

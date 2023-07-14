@@ -44,6 +44,7 @@ const Navbar = ({ navHeight, Logout }: navType) => {
   useEffect(() => {
     if (elementRef.current) {
       const height = elementRef.current.clientHeight;
+      console.log(height);
       navHeight(height);
     }
 
@@ -54,6 +55,7 @@ const Navbar = ({ navHeight, Logout }: navType) => {
     <nav
       ref={elementRef}
       className="container navbar navbar-expand rounded p-3 d-flex flex-row justify-content-between"
+      style={{ height: "72px" }}
     >
       <a href="/" className="d-flex flex-row align-items-center">
         <img
