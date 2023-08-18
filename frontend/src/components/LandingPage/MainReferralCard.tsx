@@ -39,7 +39,7 @@ const MainReferralCard = ({
             </Link>
             <div
               onClick={() => openCard(referral)}
-              style={{ width: "175px", height: "100px" }}
+              style={{ width: "175px", height: "100px", overflowY: "hidden" }}
             >
               <h6 className="card-subtitle mb-2 text-info text-uppercase">
                 {referral.code}
