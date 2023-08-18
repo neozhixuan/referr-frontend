@@ -37,11 +37,17 @@ const MainReferralCard = ({
               />
               <h5 className="mt-1">{referral.organisation}</h5>
             </Link>
-            <div onClick={() => openCard(referral)}>
+            <div
+              onClick={() => openCard(referral)}
+              style={{ width: "175px", height: "100px" }}
+            >
               <h6 className="card-subtitle mb-2 text-info text-uppercase">
                 {referral.code}
               </h6>
-              <p className=" text-white" style={{ color: "white!important" }}>
+              <p
+                className="truncate-lines text-white"
+                style={{ color: "white!important" }}
+              >
                 {referral.description}
               </p>
             </div>
