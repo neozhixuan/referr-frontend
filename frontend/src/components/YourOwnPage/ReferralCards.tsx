@@ -49,7 +49,7 @@ const ReferralCards = ({
       className="rounded bg-dark p-3 mb-3 text-white"
       style={{ width: "100%" }}
     >
-      <div className="d-flex flex-row justify-content-between">
+      <div className="d-flex flex-row justify-content-between gap-5">
         {/* Details */}
         <div onClick={openCard} className="d-flex flex-column w-100">
           <div className="d-flex flex-row gap-3">

@@ -93,7 +93,7 @@ const CustomPage = ({
     inputValue;
 
   useEffect(() => {
-    setTimeout(() => setAuthLoad(false), 800);
+    setTimeout(() => setAuthLoad(false), 2000);
   }, []);
 
   const [localLikes, setLocalLikes] = useState<string[]>([]);
@@ -397,18 +397,18 @@ const CustomPage = ({
             );
           })}
         </div>
+      ) : authLoad ? (
+        <div>
+          Searching for results...{" "}
+          <div className="spinner-border spinner-border-sm" role="status" />
+        </div>
       ) : (
-        <>
-          {authLoad ? (
-            <Spinner animation="border" variant="light" />
-          ) : (
-            <div>No referrals yet.</div>
-          )}
-        </>
+        <p>No results found</p>
       )}
+
       {/* Button depending on auth */}
       {authLoad ? (
-        <Spinner animation="border" variant="light" />
+        <Spinner animation="border" variant="dark" />
       ) : (
         <>
           {auth ? (
