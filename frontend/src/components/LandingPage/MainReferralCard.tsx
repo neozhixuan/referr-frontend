@@ -21,7 +21,7 @@ const MainReferralCard = ({
   return (
     <div key={referral._id} className="col mb-4 d-flex justify-content-center">
       <div
-        className="card bg-secondary border-white border-2"
+        className="card bg-black border-white border-2"
         style={{ width: "18rem" }}
       >
         <div className="card-body d-flex flex-column">
@@ -43,7 +43,7 @@ const MainReferralCard = ({
               </h6>
               <p
                 className="truncate-lines text-white"
-                style={{ color: "white" }}
+                style={{ color: "white!important" }}
               >
                 {referral.description}
               </p>
