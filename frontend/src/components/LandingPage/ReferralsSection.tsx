@@ -137,6 +137,17 @@ const ReferralsSection = ({
           </div>
         </div>
         <div className="container-fluid">
+          <p className="container text-white mt-4 results-text">
+            {referralCount === 0 && (
+              <>
+                Searching for results...{"  "}
+                <div
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                />
+              </>
+            )}
+          </p>
           <div
             className="row row-cols-2 row-cols-md-4 row-cols-lg-6 mx-auto"
             style={{ width: "80vw" }}
@@ -222,9 +233,17 @@ const ReferralsSection = ({
         </div>
         <div className="container-fluid">
           <p className="container text-white mt-4 results-text">
-            {referralCount
-              ? `${referralCount} results found.`
-              : "No results found, please refine your search query!"}
+            {referralCount ? (
+              `${referralCount} results found.`
+            ) : (
+              <>
+                Searching for results...{"  "}
+                <div
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                />
+              </>
+            )}
           </p>
           <div
             className="row row-cols-1 row-cols-md-3 row-cols-lg-5 mx-auto mb-4"
