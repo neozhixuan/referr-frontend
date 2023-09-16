@@ -18,11 +18,20 @@ const MainReferralCard = ({
   handleLikes: (id: string, includes: boolean) => Promise<void>;
   localLikes: string[];
 }) => {
+  function limitWords(text: string, maxWords: number) {
+    const words = text.split(" "); // Split the text into an array of words
+    if (words.length <= maxWords) {
+      return text; // If the text has fewer words than the limit, return it as is
+    } else {
+      const truncatedText = words.slice(0, maxWords).join(" "); // Select and join the first 'maxWords' words
+      return `${truncatedText}`;
+    }
+  }
   return (
     <div key={referral._id} className="col mb-2 d-flex justify-content-center">
       <div
         className="card bg-black border-white border-2"
-        style={{ width: "18rem", overflowY: "hidden" }}
+        style={{ width: "18rem" }}
       >
         <div className="card-body d-flex flex-column">
           <div className="d-flex flex-column ">
@@ -42,19 +51,19 @@ const MainReferralCard = ({
                 {referral.code}
               </h6>
               <p className="text-white multiline-ellipsis">
-                {referral.description}
+                {limitWords(referral.description, 20)}
               </p>
             </div>
           </div>
           <div
             onClick={() => openCard(referral)}
-            style={{ height: "100%" }}
+            style={{ height: "100%", zIndex: 899, backgroundColor: "black" }}
             className="text-white  d-flex align-items-end"
           >
             <span className="text-center w-100">. . .</span>
           </div>
 
-          <div>
+          <div style={{ zIndex: 899, backgroundColor: "black" }}>
             <div className="text-white">
               {load.includes(referral._id) ? (
                 <>Loading...</>
