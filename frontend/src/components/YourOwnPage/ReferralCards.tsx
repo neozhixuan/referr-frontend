@@ -16,6 +16,15 @@ const ReferralCards = ({
   auth: boolean;
   openCard: () => void;
 }) => {
+  function limitWords(text: string, maxWords: number) {
+    const words = text.split(" "); // Split the text into an array of words
+    if (words.length <= maxWords) {
+      return text; // If the text has fewer words than the limit, return it as is
+    } else {
+      const truncatedText = words.slice(0, maxWords).join(" "); // Select and join the first 'maxWords' words
+      return `${truncatedText} ...`; // Add an ellipsis to indicate truncation
+    }
+  }
   const deleteButton = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -62,9 +71,12 @@ const ReferralCards = ({
           </div>
           <div className="text-info">{referral.code}</div>
           <div className="multiline-ellipsis" style={{ marginRight: "5px" }}>
-            {referral.description}
+            {limitWords(referral.description, 30)}
           </div>
-          <div className=" d-flex flex-row gap-1 align-items-stretch">
+          <div
+            className="bg-dark d-flex flex-row gap-1 align-items-stretch"
+            style={{ zIndex: 899 }}
+          >
             <div>{filledApprove}</div>
             <div style={{ paddingTop: "1px" }}>{referral.approvals.length}</div>
           </div>

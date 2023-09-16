@@ -24,7 +24,7 @@ const MainReferralCard = ({
       return text; // If the text has fewer words than the limit, return it as is
     } else {
       const truncatedText = words.slice(0, maxWords).join(" "); // Select and join the first 'maxWords' words
-      return `${truncatedText}`;
+      return `${truncatedText} ...`; // Add an ellipsis to indicate truncation
     }
   }
   return (
