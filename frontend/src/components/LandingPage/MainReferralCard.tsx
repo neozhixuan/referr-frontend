@@ -51,7 +51,7 @@ const MainReferralCard = ({
                 {referral.code}
               </h6>
               <p className="text-white multiline-ellipsis">
-                {limitWords(referral.description, 20)}
+                {limitWords(referral.description, 15)}
               </p>
             </div>
           </div>

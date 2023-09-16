@@ -196,10 +196,10 @@
 /* } */
 
 .multiline-ellipsis {
-  display: -webkit-box;
+  /* display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   white-space: wrap;
-  margin-bottom: 0;
+  margin-bottom: 0; */
 }
