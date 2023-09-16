@@ -22,7 +22,7 @@ const MainReferralCard = ({
     <div key={referral._id} className="col mb-2 d-flex justify-content-center">
       <div
         className="card bg-black border-white border-2"
-        style={{ width: "18rem" }}
+        style={{ width: "18rem", overflowY: "hidden" }}
       >
         <div className="card-body d-flex flex-column">
           <div className="d-flex flex-column ">
@@ -37,10 +37,7 @@ const MainReferralCard = ({
               />
               <h5 className="mt-1">{referral.organisation}</h5>
             </Link>
-            <div
-              onClick={() => openCard(referral)}
-              style={{ overflow: "hidden" }}
-            >
+            <div onClick={() => openCard(referral)}>
               <h6 className="card-subtitle mb-2 text-info text-uppercase">
                 {referral.code}
               </h6>
