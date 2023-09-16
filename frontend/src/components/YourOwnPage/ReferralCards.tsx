@@ -75,7 +75,7 @@ const ReferralCards = ({
           </div>
           <div
             className="bg-dark d-flex flex-row gap-1 align-items-stretch"
-            style={{ zIndex: 899 }}
+            // style={{ zIndex: 899 }}
           >
             <div>{filledApprove}</div>
             <div style={{ paddingTop: "1px" }}>{referral.approvals.length}</div>

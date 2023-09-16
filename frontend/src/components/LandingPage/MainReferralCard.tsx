@@ -57,13 +57,11 @@ const MainReferralCard = ({
           </div>
           <div
             onClick={() => openCard(referral)}
-            style={{ height: "100%", zIndex: 899, backgroundColor: "black" }}
+            style={{ height: "100%" }}
             className="text-white  d-flex align-items-end"
-          >
-            <span className="text-center w-100">. . .</span>
-          </div>
+          ></div>
 
-          <div style={{ zIndex: 899, backgroundColor: "black" }}>
+          <div>
             <div className="text-white">
               {load.includes(referral._id) ? (
                 <>Loading...</>
