@@ -71,7 +71,7 @@ const ReferralCards = ({
           </div>
           <div className="text-info">{referral.code}</div>
           <div className="multiline-ellipsis" style={{ marginRight: "5px" }}>
-            {limitWords(referral.description, 30)}
+            {limitWords(referral.description, 25)}
           </div>
           <div
             className="bg-dark d-flex flex-row gap-1 align-items-stretch"
