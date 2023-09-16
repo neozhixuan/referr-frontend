@@ -25,7 +25,7 @@ const MainReferralCard = ({
         style={{ width: "18rem" }}
       >
         <div className="card-body d-flex flex-column">
-          <div className="d-flex flex-column mb-3">
+          <div className="d-flex flex-column ">
             <Link
               to={`/organisation/${referral.organisation}`}
               className="card-title text-white d-flex flex-row gap-3 text-decoration-none"
@@ -41,20 +41,20 @@ const MainReferralCard = ({
               <h6 className="card-subtitle mb-2 text-info text-uppercase">
                 {referral.code}
               </h6>
-              <p
-                className="text-white multiline-ellipsis"
-                style={{
-                  color: "white!important",
-                  // maxHeight: "70px",
-                  // overflowY: "hidden",
-                  // textOverflow: "ellipsis",
-                }}
-              >
+              <p className="text-white multiline-ellipsis">
                 {referral.description}
               </p>
             </div>
           </div>
-          <div className="mt-auto">
+          <div
+            onClick={() => openCard(referral)}
+            style={{ height: "100%" }}
+            className="text-white  d-flex align-items-end"
+          >
+            <span className="text-center w-100">. . .</span>
+          </div>
+
+          <div>
             <div className="text-white">
               {load.includes(referral._id) ? (
                 <>Loading...</>

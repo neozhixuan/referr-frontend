@@ -185,8 +185,12 @@
 }
 
 .multiline-ellipsis {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
-  white-space: pre-wrap; /* let the text wrap preserving spaces */
+  font-size: 1em;
+  max-height: 4.5em;
+  overflow-y: hidden;
+  margin-bottom: 0;
+  /* display: -webkit-box; */
+  /* -webkit-box-orient: vertical; */
+  /* -webkit-line-clamp: 3; start showing ellipsis when 3rd line is reached */
+  /* white-space: pre-wrap; let the text wrap preserving spaces */
 }
