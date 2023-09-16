@@ -196,5 +196,6 @@
 /* } */
 
 .landing-page-top {
-  min-height: -webkit-fill-available;
+  height: 100vh;
+  height: 100svh;
 }
