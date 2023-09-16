@@ -184,12 +184,22 @@
   text-overflow: ellipsis;
 }
 
-.multiline-ellipsis {
+/* .multiline-ellipsis {
   font-size: 1em;
-  height: 4.5em;
-  margin-bottom: 0;
-  /* display: -webkit-box; */
-  /* -webkit-box-orient: vertical; */
-  /* -webkit-line-clamp: 3; start showing ellipsis when 3rd line is reached */
-  /* white-space: pre-wrap; let the text wrap preserving spaces */
+  max-height: 4.5em;
+  overflow-y: hidden;
+  margin-bottom: 0; */
+/* display: -webkit-box; */
+/* -webkit-box-orient: vertical; */
+/* -webkit-line-clamp: 3; start showing ellipsis when 3rd line is reached */
+/* white-space: pre-wrap; let the text wrap preserving spaces */
+/* } */
+
+.multiline-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  overflow: hidden;
 }
