@@ -195,11 +195,6 @@
 /* white-space: pre-wrap; let the text wrap preserving spaces */
 /* } */
 
-.multiline-ellipsis {
-  /* display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
-  white-space: wrap;
-  margin-bottom: 0; */
+.landing-page-top {
+  min-height: -webkit-fill-available;
 }

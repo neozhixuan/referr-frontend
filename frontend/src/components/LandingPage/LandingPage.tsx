@@ -30,7 +30,7 @@ const LandingPage = ({
 
   return (
     <div className="pt-2">
-      <div style={{ maxHeight: "100vh" }}>
+      <div className="landing-page-top">
         <Navbar navHeight={navHeight} Logout={Logout} />
 
         {/* Tag Image */}
