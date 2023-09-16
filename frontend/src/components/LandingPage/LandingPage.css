@@ -201,5 +201,5 @@
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   white-space: wrap;
-  overflow: hidden;
+  margin-bottom: 0;
 }

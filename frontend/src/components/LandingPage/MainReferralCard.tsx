@@ -37,7 +37,10 @@ const MainReferralCard = ({
               />
               <h5 className="mt-1">{referral.organisation}</h5>
             </Link>
-            <div onClick={() => openCard(referral)}>
+            <div
+              onClick={() => openCard(referral)}
+              style={{ overflow: "hidden" }}
+            >
               <h6 className="card-subtitle mb-2 text-info text-uppercase">
                 {referral.code}
               </h6>
