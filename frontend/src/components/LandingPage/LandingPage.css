@@ -186,8 +186,7 @@
 
 .multiline-ellipsis {
   font-size: 1em;
-  max-height: 4.5em;
-  overflow-y: hidden;
+  height: 4.5em;
   margin-bottom: 0;
   /* display: -webkit-box; */
   /* -webkit-box-orient: vertical; */
