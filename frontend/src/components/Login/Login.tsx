@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Common/Navbar";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { handleError, handleSuccess } from "../utils";
-import { ReferralDataService } from "../services/referrals";
+import { handleError, handleSuccess } from "../../utils";
+import { ReferralDataService } from "../../services/referrals";
 
 const Login = ({
   user,
@@ -83,8 +83,7 @@ const Login = ({
         <p style={{ fontSize: "40px" }}>Login to your account</p>
         <p>Have an account? Login with your credentials.</p>
         <form
-          className="d-flex flex-column gap-2"
-          style={{ width: "50%" }}
+          className="d-flex flex-column gap-2 form-style"
           onSubmit={handleSubmit}
         >
           <input

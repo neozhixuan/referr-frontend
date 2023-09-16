@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import Navbar from "../Navbar";
+import Navbar from "../Common/Navbar";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { handleError, handleSuccess } from "../../utils/index";
@@ -70,8 +70,7 @@ const Register = ({ Logout }: { Logout: () => void }) => {
         <p style={{ fontSize: "40px" }}>Create your account</p>
         <p>Choose a name for your referral link.</p>
         <form
-          className="d-flex flex-column gap-2"
-          style={{ width: "50%" }}
+          className="d-flex flex-column gap-2 form-style"
           onSubmit={handleSubmit}
         >
           <input

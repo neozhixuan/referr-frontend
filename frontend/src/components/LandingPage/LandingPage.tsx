@@ -1,6 +1,6 @@
 import "./LandingPage.css";
 import { useMediaQuery } from "react-responsive";
-import Navbar from "../Navbar";
+import Navbar from "../Common/Navbar";
 import { useState } from "react";
 import LandingSection from "./LandingSection";
 import ReferralsSection from "./ReferralsSection";
@@ -11,6 +11,7 @@ import Footer from "./Footer";
 const LandingPage = ({
   refer,
   org,
+  orgCount,
   refCount,
   user,
   Logout,
@@ -45,6 +46,7 @@ const LandingPage = ({
         retrieveReferrals={retrieveReferrals}
         refer={refer}
         org={org}
+        orgCount={orgCount}
         refCount={refCount}
         user={user}
         Logout={Logout}

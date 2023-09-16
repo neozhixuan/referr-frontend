@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
-import { ReferralDataService } from "../services/referrals";
+import { ReferralDataService } from "../../services/referrals";
 import "./Navbar.css";
 type navType = {
   navHeight: (height: number) => void;

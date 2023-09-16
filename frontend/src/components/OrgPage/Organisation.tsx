@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ReferralDataService } from "../../services/referrals";
 import { organisationType, referralType } from "../../types";
 import { useParams } from "react-router-dom";
-import Navbar from "../Navbar";
+import Navbar from "../Common/Navbar";
 import OrgCard from "../LandingPage/OrgCard";
 // import MainReferralCard from "../LandingPage/MainReferralCard";
 import MainReferralCard from "../LandingPage/MainReferralCard";

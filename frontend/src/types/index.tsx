@@ -17,6 +17,7 @@ export interface organisationType {
 }
 
 export type PropType = {
+  orgCount: number;
   refer: referralType[] | never[];
   org: organisationType[] | never[];
   refCount: number;

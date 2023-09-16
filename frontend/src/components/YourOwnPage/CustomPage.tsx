@@ -8,7 +8,7 @@ import { Button, Form } from "react-bootstrap";
 import "./CustomPage.css"; // Import the CSS file with the styles
 import { organisationType } from "../../types";
 import { saveToClipboard } from "../../utils";
-import LoadingScreen from "../LoadingScreen";
+import LoadingScreen from "../Common/LoadingScreen";
 import ReferralForm from "./ReferralForm";
 import { Spinner } from "react-bootstrap";
 import {
@@ -66,7 +66,7 @@ const CustomPage = ({
     date: new Date(),
   });
   const [referrals, setReferrals] = useState<referralType[] | never[]>(
-    userReferral
+    user === "" || user !== name ? [] : userReferral
   );
   const [deleteID, setDeleteID] = useState({
     userId: "",
@@ -93,7 +93,19 @@ const CustomPage = ({
     inputValue;
 
   useEffect(() => {
-    setTimeout(() => setAuthLoad(false), 2000);
+    setTimeout(() => setAuthLoad(false), 6000);
+  }, []);
+
+  useEffect(() => {
+    console.log(user);
+    if (name) {
+      if (user === "" || user !== name) {
+        referralDataService.find(name, "userId").then((response) => {
+          setReferrals(response.data.referrals);
+          setReferralCount(response.data.total_results);
+        });
+      }
+    }
   }, []);
 
   const [localLikes, setLocalLikes] = useState<string[]>([]);
@@ -377,7 +389,7 @@ const CustomPage = ({
       />
       {/* Referral Cards */}
 
-      {referralCount > 0 ? (
+      {authLoad || referralCount > 0 ? (
         <div className="scrollbar vh-90 overflow-auto">
           {referrals.map((referral: referralType) => {
             const matchedItem = org.find(
@@ -397,7 +409,7 @@ const CustomPage = ({
             );
           })}
         </div>
-      ) : authLoad ? (
+      ) : authLoad && referralCount === 0 ? (
         <div>
           Searching for results...{" "}
           <div className="spinner-border spinner-border-sm" role="status" />
@@ -407,14 +419,22 @@ const CustomPage = ({
       )}
 
       {/* Button depending on auth */}
-      {authLoad ? (
-        <Spinner animation="border" variant="dark" />
+      {authLoad && !auth ? (
+        <div className="d-flex align-items-center gap-2">
+          Authenticating... <Spinner animation="border" variant="dark" />
+        </div>
       ) : (
         <>
           {auth ? (
-            <button onClick={() => setIsOpen(true)} className="btn btn-light">
-              Create a new referral to share!
-            </button>
+            user === name ? (
+              <button onClick={() => setIsOpen(true)} className="btn btn-light">
+                Create a new referral to share!
+              </button>
+            ) : (
+              <Link className="btn btn-dark" to={`/user/${user}`}>
+                Return to your page!
+              </Link>
+            )
           ) : (
             <Link
               to={"/register/example"}
@@ -428,8 +448,8 @@ const CustomPage = ({
           )}
         </>
       )}
-      <Link to={"/"} className="mt-auto text-black">
-        Back to refer.help
+      <Link to={"/"} className="btn btn-dark mt-auto">
+        Back to refer.site...
       </Link>
       {/* Referral Creation Form */}
       {isOpen && (

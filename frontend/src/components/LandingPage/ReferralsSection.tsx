@@ -1,4 +1,7 @@
-import { ReferralDataService } from "../../services/referrals";
+import {
+  OrganisationDataService,
+  ReferralDataService,
+} from "../../services/referrals";
 import { useState, useEffect } from "react";
 import { referralType, organisationType } from "../../types";
 import { Link } from "react-router-dom";
@@ -7,13 +10,20 @@ import { handleError } from "../../utils";
 import OrgCard from "./OrgCard";
 import { filledApprove, emptyApprove, heartFilled } from "../../utils";
 import MainReferralCard from "./MainReferralCard";
+import { Button } from "react-bootstrap";
 const ReferralsSection = ({
   refer,
   org,
   refCount,
   user,
+  orgCount,
   retrieveReferrals,
 }: PropType) => {
+  const [referralPage, setReferralPage] = useState<number>(0);
+  const [orgPage, setOrgPage] = useState<number>(0);
+
+  const ORGANISATIONSPERPAGE = 6;
+  const REFERRALSPERPAGE = 6;
   const [input, setInput] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState("");
   const [referrals, setReferrals] = useState<referralType[] | never[]>([]);
@@ -21,6 +31,8 @@ const ReferralsSection = ({
   const [organisations, setOrganisations] = useState<
     organisationType[] | never[]
   >(org);
+  const [orgsCount, setOrgsCount] = useState(orgCount);
+
   const [localLikes, setLocalLikes] = useState<string[]>([]);
   const [load, setLoad] = useState<string[]>([]);
   const [viewReferral, setViewReferral] = useState<referralType>({
@@ -36,6 +48,39 @@ const ReferralsSection = ({
   });
   const [viewReferralImg, setViewReferralImg] = useState("");
   const [cardOpen, setCardOpen] = useState(false);
+
+  const leftArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="bi bi-arrow-left"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fillRule="evenodd"
+        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+      />
+    </svg>
+  );
+
+  const rightArrow = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="bi bi-arrow-right"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fillRule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
+    </svg>
+  );
+
   // Update the details on load
   useEffect(() => {
     setReferrals(refer);
@@ -48,7 +93,7 @@ const ReferralsSection = ({
   }, [org]);
 
   const referralDataService = new ReferralDataService();
-
+  const organisationDataService = new OrganisationDataService();
   // Filter through organisations on query
   const filterOrganisations = (query: string) => {
     setSelectedOption(query);
@@ -109,6 +154,42 @@ const ReferralsSection = ({
     setCardOpen(true);
   };
 
+  const decreaseReferralPage = () => {
+    if (referralPage !== 0) {
+      setReferralPage(referralPage - 1);
+      referralDataService.getAll(referralPage - 1).then((response) => {
+        setReferrals(response.data.referrals);
+      });
+    }
+  };
+
+  const increaseReferralPage = () => {
+    if ((referralPage + 2) * REFERRALSPERPAGE <= referralCount) {
+      setReferralPage(referralPage + 1);
+      referralDataService.getAll(referralPage + 1).then((response) => {
+        setReferrals(response.data.referrals);
+      });
+    }
+  };
+
+  const decreaseOrgPage = () => {
+    if (orgPage !== 0) {
+      setOrgPage(orgPage - 1);
+      organisationDataService.getAll(orgPage - 1).then((response) => {
+        setOrganisations(response.data.organisations);
+      });
+    }
+  };
+
+  const increaseOrgPage = () => {
+    if ((orgPage + 2) * ORGANISATIONSPERPAGE <= orgCount) {
+      setOrgPage(orgPage + 1);
+      organisationDataService.getAll(orgPage + 1).then((response) => {
+        setOrganisations(response.data.organisations);
+      });
+    }
+  };
+
   return (
     <div className="referrals-section d-flex flex-column gap-4">
       {cardOpen && (
@@ -138,7 +219,7 @@ const ReferralsSection = ({
         </div>
         <div className="container-fluid">
           <p className="container text-white mt-4 results-text">
-            {referralCount === 0 && (
+            {orgCount === 0 ? (
               <>
                 Searching for results...{"  "}
                 <div
@@ -146,17 +227,19 @@ const ReferralsSection = ({
                   role="status"
                 />
               </>
+            ) : (
+              <p>{orgCount} results found.</p>
             )}
           </p>
           <div
             className="row row-cols-2 row-cols-md-4 row-cols-lg-6 mx-auto"
-            style={{ width: "80vw" }}
+            style={{ width: "90vw" }}
           >
             {organisations.map((organisation: organisationType) => {
               return (
                 <div
                   key={organisation._id}
-                  className="col mb-4 d-flex justify-content-center"
+                  className="col mb-2 d-flex justify-content-center"
                 >
                   <div
                     className="card bg-black border-white border-2"
@@ -177,6 +260,22 @@ const ReferralsSection = ({
                 </div>
               );
             })}
+          </div>
+          <div className="d-flex justify-content-center gap-3">
+            <Button
+              onClick={decreaseOrgPage}
+              className="btn btn-dark"
+              disabled={orgPage === 0}
+            >
+              {leftArrow}
+            </Button>
+            <Button
+              onClick={increaseOrgPage}
+              className="btn btn-dark"
+              disabled={(orgPage + 2) * ORGANISATIONSPERPAGE > orgCount}
+            >
+              {rightArrow}
+            </Button>
           </div>
         </div>
       </div>
@@ -246,11 +345,11 @@ const ReferralsSection = ({
             )}
           </p>
           <div
-            className="row row-cols-1 row-cols-md-3 row-cols-lg-5 mx-auto mb-4"
-            style={{ width: "80vw" }}
+            className="row row-cols-1 row-cols-md-3 row-cols-lg-6 mx-auto "
+            style={{ width: "90vw" }}
           >
             {referralCount !== 0 &&
-              referrals.map((referral: referralType) => {
+              referrals.map((referral: referralType, idx: number) => {
                 const matchedItem = organisations.find(
                   (organisation) => organisation.name === referral.organisation
                 );
@@ -258,6 +357,7 @@ const ReferralsSection = ({
 
                 return (
                   <MainReferralCard
+                    key={idx}
                     referral={referral}
                     openCard={openCard}
                     imageUrl={imageUrl}
@@ -268,6 +368,22 @@ const ReferralsSection = ({
                   />
                 );
               })}
+          </div>
+          <div className="d-flex justify-content-center gap-3 mb-3">
+            <Button
+              onClick={decreaseReferralPage}
+              className="btn btn-dark"
+              disabled={referralPage === 0}
+            >
+              {leftArrow}
+            </Button>
+            <Button
+              onClick={increaseReferralPage}
+              className="btn btn-dark"
+              disabled={(referralPage + 2) * REFERRALSPERPAGE > referralCount}
+            >
+              {rightArrow}
+            </Button>
           </div>
         </div>
       </div>

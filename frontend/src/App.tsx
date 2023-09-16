@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
 import "./App.css";
 
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Organisation from "./components/OrgPage/Organisation";
 import Register from "./components/Registration/Register";
@@ -29,6 +29,7 @@ function App() {
   const [organisations, setOrganisations] = useState<
     organisationType[] | never[]
   >([]);
+  const [orgCount, setOrgCount] = useState<number>(0);
   const [user, setUser] = useState("");
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
@@ -73,7 +74,7 @@ function App() {
 
   const retrieveReferrals = () => {
     setTimeout(() => {
-      referralDataService.getAll().then((response) => {
+      referralDataService.getAll(0).then((response) => {
         setReferrals(response.data.referrals);
         setReferralCount(response.data.total_results);
       });
@@ -84,6 +85,7 @@ function App() {
       setTimeout(() => {
         organisationDataService.getAll().then((response) => {
           setOrganisations(response.data.organisations);
+          setOrgCount(response.data.total_results);
         });
       }, 500); // Delayed by 0.5 second
     };
@@ -122,6 +124,7 @@ function App() {
               <LandingPage
                 refer={referrals}
                 org={organisations}
+                orgCount={orgCount}
                 refCount={referralCount}
                 user={user}
                 Logout={Logout}

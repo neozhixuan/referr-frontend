@@ -38,22 +38,23 @@ const OrgCard = ({
           </Link>{" "}
         </div>
         <div onClick={setCardOpen}>
-          <p>
+          <div>
             <b>Code:</b> <p>{viewReferral.code}</p>
-          </p>
-          <p>
+          </div>
+          <div>
             <b>Description:</b> <p>{viewReferral.description}</p>
-          </p>
-          <p>
+          </div>
+          <div>
             <b>Expiry Date:</b>{" "}
             <p>
               {viewReferral.expiryDate
                 ? viewReferral.expiryDate?.toLocaleDateString()
                 : `Not specified.`}
             </p>
-          </p>
+          </div>
         </div>
-        <p className="mt-auto">
+        <div onClick={setCardOpen} style={{ height: "100%" }}></div>
+        <p>
           <b>Created at</b> {viewReferral.date.toLocaleDateString()} by{" "}
           <Link to={`/user/${viewReferral.userId}`}>{viewReferral.userId}</Link>
         </p>

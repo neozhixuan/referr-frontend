@@ -19,13 +19,13 @@ const MainReferralCard = ({
   localLikes: string[];
 }) => {
   return (
-    <div key={referral._id} className="col mb-4 d-flex justify-content-center">
+    <div key={referral._id} className="col mb-2 d-flex justify-content-center">
       <div
         className="card bg-black border-white border-2"
         style={{ width: "18rem" }}
       >
         <div className="card-body d-flex flex-column">
-          <div className="d-flex flex-column gap-2 mb-3">
+          <div className="d-flex flex-column mb-3">
             <Link
               to={`/organisation/${referral.organisation}`}
               className="card-title text-white d-flex flex-row gap-3 text-decoration-none"
@@ -37,14 +37,19 @@ const MainReferralCard = ({
               />
               <h5 className="mt-1">{referral.organisation}</h5>
             </Link>
-            <div
-              onClick={() => openCard(referral)}
-              style={{ width: "175px", height: "100px", overflowY: "hidden" }}
-            >
+            <div onClick={() => openCard(referral)}>
               <h6 className="card-subtitle mb-2 text-info text-uppercase">
                 {referral.code}
               </h6>
-              <p className=" text-white" style={{ color: "white!important" }}>
+              <p
+                className="text-white multiline-ellipsis"
+                style={{
+                  color: "white!important",
+                  // maxHeight: "70px",
+                  // overflowY: "hidden",
+                  // textOverflow: "ellipsis",
+                }}
+              >
                 {referral.description}
               </p>
             </div>
