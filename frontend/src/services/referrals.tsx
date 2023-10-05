@@ -1,5 +1,5 @@
 import http from "../http-common";
-import { inputValueType } from "../components/YourOwnPage/CustomPage";
+import { inputValueType } from "../components/CustomPage/CustomPage";
 export class ReferralDataService {
   // Referral Services
   getAll(page = 0) {

@@ -8,7 +8,7 @@ import Login from "./components/Login/Login";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Organisation from "./components/OrgPage/Organisation";
 import Register from "./components/Registration/Register";
-import CustomPage from "./components/YourOwnPage/CustomPage";
+import CustomPage from "./components/CustomPage/CustomPage";
 import { handleSuccess } from "./utils";
 import {
   OrganisationDataService,

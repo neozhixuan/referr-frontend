@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { ToastContainer, toast } from "react-toastify";
-import { ReferralDataService } from "../../services/referrals";
+import { checkAuth } from "./utils";
+
 import "./Navbar.css";
+
 type navType = {
   navHeight: (height: number) => void;
   Logout: () => void;
@@ -15,30 +16,16 @@ const Navbar = ({ navHeight, Logout }: navType) => {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(false);
   const [load, setLoad] = useState(false);
-  const referralDataService = new ReferralDataService();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      // if (!cookies.token) {
-      //   return;
-      // }
-      referralDataService
-        .auth()
-        .then((response) => {
-          console.log("This is navbar checking auth");
-          console.log(response.data);
-          const { status, user } = response.data;
-          if (status) {
-            setAuth(true);
-            setUser(user);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    const authenticate = async () => {
+      const { status, user } = await checkAuth();
+      if (status) {
+        setAuth(true);
+        setUser(user);
+      }
+      setTimeout(authenticate, 500);
     };
-
-    setTimeout(checkAuth, 500);
   }, [cookies.token]);
 
   useEffect(() => {
