@@ -32,7 +32,7 @@ const ReferralsSection = ({
   const [selectedOption, setSelectedOption] = useState("");
   const [referrals, setReferrals] = useState<referralType[] | never[]>([]);
   const [referralCount, setReferralCount] = useState(refCount);
-  const [allOrgs, setAllOrgs] = useState<organisationType[] | never[]>(org);
+  // const [allOrgs, setAllOrgs] = useState<organisationType[] | never[]>(org);
   const [organisations, setOrganisations] = useState<organisationType[]>([
     { _id: "0", imgUrl: "www.google.com", name: "Loading" },
   ]);
@@ -378,11 +378,11 @@ const ReferralsSection = ({
           >
             {referralCount !== 0 &&
               referrals.map((referral: referralType, idx: number) => {
-                const matchedItem = allOrgs.find(
+                const matchedItem = org.find(
                   (organisation) => organisation.name === referral.organisation
                 );
                 const imageUrl = matchedItem ? matchedItem.imgUrl : "";
-
+                console.log(imageUrl);
                 return (
                   <MainReferralCard
                     key={idx}
