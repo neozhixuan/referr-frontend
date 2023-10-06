@@ -56,11 +56,13 @@ function App() {
   useEffect(() => {
     const authenticate = async () => {
       const { status, user } = await checkAuth();
+      console.log({ status, user });
+
       if (status) {
         setUser(user);
       }
-      setTimeout(authenticate, 500);
     };
+    setTimeout(authenticate, 500);
   }, [cookies.token]);
 
   const retrieveReferrals = () => {

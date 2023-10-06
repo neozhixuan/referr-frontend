@@ -20,12 +20,13 @@ const Navbar = ({ navHeight, Logout }: navType) => {
   useEffect(() => {
     const authenticate = async () => {
       const { status, user } = await checkAuth();
+      console.log({ status, user });
+
       if (status) {
-        setAuth(true);
         setUser(user);
       }
-      setTimeout(authenticate, 500);
     };
+    setTimeout(authenticate, 500);
   }, [cookies.token]);
 
   useEffect(() => {

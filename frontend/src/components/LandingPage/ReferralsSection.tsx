@@ -37,7 +37,8 @@ const ReferralsSection = ({
     { _id: "0", imgUrl: "www.google.com", name: "Loading" },
   ]);
 
-  const options = mapOptions(org);
+  let options = mapOptions(org);
+  options = [...options, { label: "Placeholder", value: "" }];
   // const [orgsCount, setOrgsCount] = useState(orgCount);
 
   const [localLikes, setLocalLikes] = useState<string[]>([]);
@@ -382,7 +383,7 @@ const ReferralsSection = ({
                   (organisation) => organisation.name === referral.organisation
                 );
                 const imageUrl = matchedItem ? matchedItem.imgUrl : "";
-                console.log(imageUrl);
+                // console.log(imageUrl);
                 return (
                   <MainReferralCard
                     key={idx}
