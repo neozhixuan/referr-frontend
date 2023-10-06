@@ -45,7 +45,12 @@ export class ReferralDataService {
 }
 
 export class OrganisationDataService {
-  getAll(page = 0) {
+  getAll(page = 0, organisationsPerPage = 6) {
+    return http.get(
+      `organisations?page=${page}&organisationsPerPage=${organisationsPerPage}`
+    );
+  }
+  getPage(page = 0) {
     return http.get(`organisations?page=${page}`);
   }
   createOrg(data: { orgName: string; imgUrl: string; userId?: string }) {

@@ -1,6 +1,9 @@
 import { Button, Form } from "react-bootstrap";
+import { mapOptions } from "./utils";
 import { organisationType } from "../../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Select, { ActionMeta } from "react-select";
+import { customStyles } from "./utils";
 interface ReferralFormProps {
   handleSubmit: (e: React.FormEvent) => void;
   handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -14,7 +17,10 @@ interface ReferralFormProps {
   showInput: boolean;
   setShowInput: () => void;
   setOrgIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleSelectChange: (
+    selectedOption: { value: string; label: string } | null,
+    actionMeta: ActionMeta<{ value: string; label: string }>
+  ) => void;
   handleClosePanel: () => void;
 }
 const ReferralForm = ({
@@ -33,6 +39,9 @@ const ReferralForm = ({
   handleSelectChange,
   handleClosePanel,
 }: ReferralFormProps) => {
+  const [allOrgs, setAllOrgs] = useState();
+  const options = mapOptions(org);
+  useEffect(() => {});
   return (
     <div className="panel-container">
       <Form
@@ -56,7 +65,13 @@ const ReferralForm = ({
               </button>
             </span>
           </Form.Label>
-          <Form.Select
+          <Select
+            options={options}
+            required
+            onChange={handleSelectChange}
+            styles={customStyles}
+          />
+          {/* <Form.Select
             placeholder="Enter discount code"
             name="organisation"
             value={organisation}
@@ -74,7 +89,7 @@ const ReferralForm = ({
                 </option>
               );
             })}
-          </Form.Select>
+          </Form.Select> */}
         </Form.Group>
         <Form.Group controlId="formCode">
           <Form.Label className="mb-1">Code</Form.Label>

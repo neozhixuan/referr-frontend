@@ -16,6 +16,8 @@ import {
 } from "./services/referrals";
 import { referralType, organisationType } from "./types";
 import { useCookies } from "react-cookie";
+import { checkAuth } from "./components/utils";
+
 const organisationDataService = new OrganisationDataService();
 const referralDataService = new ReferralDataService();
 
@@ -51,25 +53,14 @@ function App() {
       });
   };
 
-  const checkAuth = async () => {
-    console.log("Starting auth...");
-    console.log("Trying auth service...");
-    referralDataService
-      .auth()
-      .then((response) => {
-        console.log(response.data);
-        const { status, user } = response.data;
-        if (status) {
-          setUser(user);
-        }
-      })
-      .catch((e) => {
-        console.log(e.response.data);
-      });
-  };
-
   useEffect(() => {
-    setTimeout(checkAuth, 1000);
+    const authenticate = async () => {
+      const { status, user } = await checkAuth();
+      if (status) {
+        setUser(user);
+      }
+      setTimeout(authenticate, 500);
+    };
   }, [cookies.token]);
 
   const retrieveReferrals = () => {
@@ -83,7 +74,7 @@ function App() {
   useEffect(() => {
     const retrieveOrganisations = () => {
       setTimeout(() => {
-        organisationDataService.getAll().then((response) => {
+        organisationDataService.getAll(0, 50).then((response) => {
           setOrganisations(response.data.organisations);
           setOrgCount(response.data.total_results);
         });

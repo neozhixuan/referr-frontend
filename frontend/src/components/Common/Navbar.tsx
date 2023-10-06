@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { checkAuth } from "./utils";
+import { checkAuth } from "../utils";
 
 import "./Navbar.css";
 

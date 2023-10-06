@@ -18,6 +18,7 @@ const MainReferralCard = ({
   handleLikes: (id: string, includes: boolean) => Promise<void>;
   localLikes: string[];
 }) => {
+  // Limit the word count and add an ellipsis
   function limitWords(text: string, maxWords: number) {
     const words = text.split(" "); // Split the text into an array of words
     if (words.length <= maxWords) {
@@ -27,6 +28,7 @@ const MainReferralCard = ({
       return `${truncatedText} ...`; // Add an ellipsis to indicate truncation
     }
   }
+
   return (
     <div key={referral._id} className="col mb-2 d-flex justify-content-center">
       <div
@@ -40,7 +42,7 @@ const MainReferralCard = ({
               className="card-title text-white d-flex flex-row gap-3 text-decoration-none"
             >
               <img
-                alt="Shop Logo"
+                // alt="Shop Logo"
                 style={{ width: "30px", height: "30px" }}
                 src={imageUrl}
               />

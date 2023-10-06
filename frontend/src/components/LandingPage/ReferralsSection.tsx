@@ -3,20 +3,24 @@ import {
   ReferralDataService,
 } from "../../services/referrals";
 import { useState, useEffect } from "react";
+import { customStyles } from "../CustomPage/utils";
 import { referralType, organisationType } from "../../types";
 import { Link } from "react-router-dom";
 import { PropType } from "../../types";
 import { handleError } from "../../utils";
 import OrgCard from "./OrgCard";
-import { filledApprove, emptyApprove, heartFilled } from "../../utils";
+import { leftArrow, rightArrow } from "../../utils";
 import MainReferralCard from "./MainReferralCard";
 import { Button } from "react-bootstrap";
+import Select, { ActionMeta } from "react-select";
+import { mapOptions } from "../CustomPage/utils";
+
 const ReferralsSection = ({
   refer,
   org,
+  orgCount,
   refCount,
   user,
-  orgCount,
   retrieveReferrals,
 }: PropType) => {
   const [referralPage, setReferralPage] = useState<number>(0);
@@ -28,10 +32,13 @@ const ReferralsSection = ({
   const [selectedOption, setSelectedOption] = useState("");
   const [referrals, setReferrals] = useState<referralType[] | never[]>([]);
   const [referralCount, setReferralCount] = useState(refCount);
-  const [organisations, setOrganisations] = useState<
-    organisationType[] | never[]
-  >(org);
-  const [orgsCount, setOrgsCount] = useState(orgCount);
+  const [allOrgs, setAllOrgs] = useState<organisationType[] | never[]>(org);
+  const [organisations, setOrganisations] = useState<organisationType[]>([
+    { _id: "0", imgUrl: "www.google.com", name: "Loading" },
+  ]);
+
+  const options = mapOptions(org);
+  // const [orgsCount, setOrgsCount] = useState(orgCount);
 
   const [localLikes, setLocalLikes] = useState<string[]>([]);
   const [load, setLoad] = useState<string[]>([]);
@@ -49,52 +56,68 @@ const ReferralsSection = ({
   const [viewReferralImg, setViewReferralImg] = useState("");
   const [cardOpen, setCardOpen] = useState(false);
 
-  const leftArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      className="bi bi-arrow-left"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fillRule="evenodd"
-        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
-      />
-    </svg>
-  );
-
-  const rightArrow = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      className="bi bi-arrow-right"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fillRule="evenodd"
-        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
-      />
-    </svg>
-  );
-
   // Update the details on load
   useEffect(() => {
     setReferrals(refer);
-  }, [refer]);
-  useEffect(() => {
     setReferralCount(refCount);
-  }, [refCount]);
-  useEffect(() => {
-    setOrganisations(org);
-  }, [org]);
+  }, [refer, refCount]);
 
   const referralDataService = new ReferralDataService();
   const organisationDataService = new OrganisationDataService();
-  // Filter through organisations on query
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await organisationDataService.getPage(orgPage);
+        const data = response.data.organisations;
+        setOrganisations(data);
+      } catch (error) {
+        // Handle error here
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [orgPage]); // useEffect will re-run whenever pageNo changes
+
+  useEffect(() => {
+    const fetchReferrals = async () => {
+      try {
+        const response = await referralDataService.getAll(referralPage);
+        const data = response.data.referrals;
+        console.log(data);
+        setReferrals(data);
+      } catch (error) {
+        // Handle error here
+        console.error(error);
+      }
+    };
+
+    fetchReferrals();
+  }, [referralPage]); // useEffect will re-run whenever pageNo changes
+
+  // Filter through organisations on select
+  const filterOrganisationsSelect = (
+    selectedOption: { value: string; label: string } | null,
+    actionMeta: ActionMeta<{ value: string; label: string }>
+  ) => {
+    if (!selectedOption) {
+      setReferrals(refer);
+      setReferralCount(refCount);
+    } else {
+      setSelectedOption(selectedOption.value);
+
+      referralDataService
+        .find(selectedOption.value, "organisation")
+        .then((response) => {
+          setReferrals(response.data.referrals);
+          setReferralCount(response.data.total_results);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
   const filterOrganisations = (query: string) => {
     setSelectedOption(query);
 
@@ -102,13 +125,17 @@ const ReferralsSection = ({
       setReferrals(refer);
       setReferralCount(refCount);
     } else {
-      referralDataService.find(query, "organisation").then((response) => {
-        setReferrals(response.data.referrals);
-        setReferralCount(response.data.total_results);
-      });
+      referralDataService
+        .find(query, "organisation")
+        .then((response) => {
+          setReferrals(response.data.referrals);
+          setReferralCount(response.data.total_results);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
-
   const handleLike = async (id: string, incl: boolean) => {
     let like = true;
     setLoad((prevArray) => [...prevArray, id]);
@@ -116,8 +143,12 @@ const ReferralsSection = ({
       () => setLoad((prevArray) => prevArray.filter((entry) => entry !== id)),
       2000
     );
+
+    // If the user already liked it, set like to false
     (localLikes.includes(id) || incl) && (like = false);
 
+    // If the user has not liked it, add his name to likes array
+    // If the user already liked it, remove his name from likes array
     referralDataService
       .like({ userId: user, id: id, like: like })
       .then((response) => {
@@ -155,38 +186,30 @@ const ReferralsSection = ({
   };
 
   const decreaseReferralPage = () => {
+    const newpage = referralPage - 1;
     if (referralPage !== 0) {
-      setReferralPage(referralPage - 1);
-      referralDataService.getAll(referralPage - 1).then((response) => {
-        setReferrals(response.data.referrals);
-      });
+      setReferralPage(newpage);
     }
   };
 
   const increaseReferralPage = () => {
-    if ((referralPage + 2) * REFERRALSPERPAGE <= referralCount) {
-      setReferralPage(referralPage + 1);
-      referralDataService.getAll(referralPage + 1).then((response) => {
-        setReferrals(response.data.referrals);
-      });
+    const newpage = referralPage + 1;
+    if (newpage * REFERRALSPERPAGE <= referralCount) {
+      setReferralPage(newpage);
     }
   };
 
   const decreaseOrgPage = () => {
+    const newpage = orgPage - 1;
     if (orgPage !== 0) {
-      setOrgPage(orgPage - 1);
-      organisationDataService.getAll(orgPage - 1).then((response) => {
-        setOrganisations(response.data.organisations);
-      });
+      setOrgPage(newpage);
     }
   };
 
   const increaseOrgPage = () => {
-    if ((orgPage + 2) * ORGANISATIONSPERPAGE <= orgCount) {
-      setOrgPage(orgPage + 1);
-      organisationDataService.getAll(orgPage + 1).then((response) => {
-        setOrganisations(response.data.organisations);
-      });
+    const newpage = orgPage + 1;
+    if (newpage * ORGANISATIONSPERPAGE <= orgCount) {
+      setOrgPage(newpage);
     }
   };
 
@@ -218,7 +241,7 @@ const ReferralsSection = ({
           </div>
         </div>
         <div className="container-fluid">
-          <p className="container text-white mt-4 results-text">
+          <div className="container text-white mt-4 results-text">
             {orgCount === 0 ? (
               <>
                 Searching for results...{"  "}
@@ -230,7 +253,7 @@ const ReferralsSection = ({
             ) : (
               <p>{orgCount} results found.</p>
             )}
-          </p>
+          </div>
           <div
             className="row row-cols-2 row-cols-md-4 row-cols-lg-6 mx-auto"
             style={{ width: "90vw" }}
@@ -272,7 +295,7 @@ const ReferralsSection = ({
             <Button
               onClick={increaseOrgPage}
               className="btn btn-dark"
-              disabled={(orgPage + 2) * ORGANISATIONSPERPAGE > orgCount}
+              disabled={(orgPage + 1) * ORGANISATIONSPERPAGE > orgCount}
             >
               {rightArrow}
             </Button>
@@ -296,7 +319,12 @@ const ReferralsSection = ({
             >
               <div className="d-flex flex-column justify-items-center text-white">
                 Filter by shop
-                <select
+                <Select
+                  options={options}
+                  onChange={filterOrganisationsSelect}
+                  styles={customStyles}
+                />
+                {/* <select
                   className="form-select "
                   aria-label="Default select example"
                   value={selectedOption}
@@ -308,7 +336,7 @@ const ReferralsSection = ({
                       {org.name}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </div>
               <div className="d-flex flex-column justify-items-center text-white">
                 Search a shop
@@ -331,7 +359,7 @@ const ReferralsSection = ({
           </div>
         </div>
         <div className="container-fluid">
-          <p className="container text-white mt-4 results-text">
+          <div className="container text-white mt-4 results-text">
             {referralCount ? (
               `${referralCount} results found.`
             ) : (
@@ -343,14 +371,14 @@ const ReferralsSection = ({
                 />
               </>
             )}
-          </p>
+          </div>
           <div
             className="row row-cols-1 row-cols-md-3 row-cols-lg-6 mx-auto "
             style={{ width: "90vw" }}
           >
             {referralCount !== 0 &&
               referrals.map((referral: referralType, idx: number) => {
-                const matchedItem = organisations.find(
+                const matchedItem = allOrgs.find(
                   (organisation) => organisation.name === referral.organisation
                 );
                 const imageUrl = matchedItem ? matchedItem.imgUrl : "";
@@ -380,7 +408,7 @@ const ReferralsSection = ({
             <Button
               onClick={increaseReferralPage}
               className="btn btn-dark"
-              disabled={(referralPage + 2) * REFERRALSPERPAGE > referralCount}
+              disabled={(referralPage + 1) * REFERRALSPERPAGE > referralCount}
             >
               {rightArrow}
             </Button>

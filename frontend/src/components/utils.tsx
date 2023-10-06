@@ -1,4 +1,4 @@
-import { ReferralDataService } from "../../services/referrals";
+import { ReferralDataService } from "../services/referrals";
 
 const referralDataService = new ReferralDataService();
 

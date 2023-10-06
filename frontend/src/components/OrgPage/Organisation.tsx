@@ -33,32 +33,7 @@ const Organisation = ({
   const [localLikes, setLocalLikes] = useState<string[]>([]);
 
   const [load, setLoad] = useState<string[]>([]);
-  const handleLike = async (id: string, incl: boolean) => {
-    let like = true;
-    setLoad((prevArray) => [...prevArray, id]);
-    setTimeout(
-      () => setLoad((prevArray) => prevArray.filter((entry) => entry !== id)),
-      2000
-    );
-    (localLikes.includes(id) || incl) && (like = false);
 
-    referralDataService
-      .like({ userId: user, id: id, like: like })
-      .then((response) => {
-        const { status } = response.data;
-        like
-          ? setLocalLikes((prevArray) => [...prevArray, id])
-          : setLocalLikes((prevArray) =>
-              prevArray.filter((entry) => entry !== id)
-            );
-        if (status === "success") {
-          retrieveReferrals();
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
   const openCard = (referral: referralType): void => {
     const matchedItem = org.find(
       (organisation) => organisation.name === referral.organisation
@@ -122,6 +97,37 @@ const Organisation = ({
     findReferrals(name);
   }, []);
 
+  const handleLike = async (id: string, incl: boolean) => {
+    let like = true;
+    setLoad((prevArray) => [...prevArray, id]);
+    setTimeout(
+      () => setLoad((prevArray) => prevArray.filter((entry) => entry !== id)),
+      2000
+    );
+
+    // If the user already liked it, set like to false
+    (localLikes.includes(id) || incl) && (like = false);
+
+    // If the user has not liked it, add his name to likes array
+    // If the user already liked it, remove his name from likes array
+    referralDataService
+      .like({ userId: user, id: id, like: like })
+      .then((response) => {
+        const { status } = response.data;
+        like
+          ? setLocalLikes((prevArray) => [...prevArray, id])
+          : setLocalLikes((prevArray) =>
+              prevArray.filter((entry) => entry !== id)
+            );
+        if (status !== "success") {
+        } else {
+          retrieveReferrals();
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <>
       {cardOpen && (

@@ -18,6 +18,7 @@ import {
 import CustomPageHeader from "./CustomPageHeader";
 import { handleSuccess, handleError } from "../../utils";
 import OrgCard from "../LandingPage/OrgCard";
+import { ActionMeta } from "react-select";
 interface CustomPageProps {
   org: organisationType[] | never[];
   userReferral: referralType[] | never[];
@@ -160,12 +161,18 @@ const CustomPage = ({
       });
     }
   };
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
+  const handleSelectChange = (
+    selectedOption: { value: string; label: string } | null,
+    actionMeta: ActionMeta<{ value: string; label: string }>
+  ) => {
+    if (selectedOption) {
+      const value = selectedOption.value;
+      const label = selectedOption?.label;
+      setInputValue({
+        ...inputValue,
+        [value]: label,
+      });
+    }
   };
   const handleOrgOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
