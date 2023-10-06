@@ -397,7 +397,7 @@ const CustomPage = ({
       {/* Referral Cards */}
 
       {authLoad || referralCount > 0 ? (
-        <div className="scrollbar vh-90 overflow-auto">
+        <div className="scrollbar vh-90 overflow-auto w-75">
           {referrals.map((referral: referralType) => {
             const matchedItem = org.find(
               (organisation) => organisation.name === referral.organisation
