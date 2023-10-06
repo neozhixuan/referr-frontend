@@ -23,6 +23,7 @@ const Navbar = ({ navHeight, Logout }: navType) => {
       console.log({ status, user });
 
       if (status) {
+        setAuth(true);
         setUser(user);
       }
     };
