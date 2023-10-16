@@ -65,7 +65,15 @@ const Navbar = ({ navHeight, Logout }: navType) => {
           referr.site
         </span>
       </a>
-      <div className="navbar-nav w-full d-flex flex-row gap-2">
+      <div className="navbar-nav w-full d-flex flex-row gap-4">
+        <li className="nav-item">
+          <a
+            href="https://forms.gle/hG6zi9aRJrPLEb327"
+            className="nav-link text-black"
+          >
+            Feedback
+          </a>
+        </li>
         {load ? (
           <>
             <li className="nav-item">
