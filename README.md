@@ -1,4 +1,4 @@
-# referr.site
+# [referr.site](https://www.referr.site/)
 Referr.site: For sharing and searching of referral codes with ease.
 
 Create your own account and get your own shareable domain of referral codes! Share this domain with your friends to get them to utilise your codes, and both of you will earn.
